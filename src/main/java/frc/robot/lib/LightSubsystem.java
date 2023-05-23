@@ -7,7 +7,6 @@ package frc.robot.lib;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,10 +22,6 @@ public class LightSubsystem extends SubsystemBase {
         this.lights = new AddressableLED(id);
         this.buffer = new AddressableLEDBuffer(length);
         this.bufferLength = length;
-
-        for (int i = 0; i < length; i++) {
-            buffer.setLED(i, Color.kSkyBlue);
-        }
 
         lights.setLength(length);
         lights.setData(buffer);
@@ -51,6 +46,10 @@ public class LightSubsystem extends SubsystemBase {
             return maxPosition;
         }
 
+        public void setMaxPosition(int maxPosition) {
+            this.maxPosition = maxPosition;
+        }
+
         public double positionPercent() {
             return (double) position() / maxPosition;
         }
@@ -68,6 +67,10 @@ public class LightSubsystem extends SubsystemBase {
 
         public int maxTime() {
             return maxTime;
+        }
+
+        public void setMaxTime(int maxTime) {
+            this.maxTime = maxTime;
         }
 
         public double timePercent() {

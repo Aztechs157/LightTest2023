@@ -6,6 +6,7 @@ package frc.robot.test;
 
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.lib.Flexbox;
 import frc.robot.lib.LightSubsystem;
 import frc.robot.lib.Pattern;
 
@@ -15,8 +16,11 @@ public class TestSubsystem extends LightSubsystem {
         super(id, length);
     }
 
-    public final Command solid = registerPattern(
-            (data) -> new Color(data.timePercent(), 0, 0));
+    public final Command flex = registerPattern(
+            new Flexbox()
+                    .add(1, Pattern.solid(Color.kHotPink))
+                    .add(1, Pattern.solid(Color.kBlue))
+                    .intoPattern());
 
     public final Command gradientPosition = registerPattern(
             Pattern.gradientOverPosition(Color.kBlue, Color.kYellow)
