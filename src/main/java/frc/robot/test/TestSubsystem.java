@@ -6,6 +6,7 @@ package frc.robot.test;
 
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.lib.Flexbox;
 import frc.robot.lib.LightSubsystem;
 import frc.robot.lib.Pattern;
@@ -16,19 +17,58 @@ public class TestSubsystem extends LightSubsystem {
         super(id, length);
     }
 
-    public final Command solid = registerPattern(Pattern.solid(Color.kHotPink));
+    public final Command solid = registerPattern(new Flexbox()
+            .add(17, Pattern.solid(Color.kRed))
+            .add(17, Pattern.solid(Color.kGreen))
+            .add(16, Pattern.solid(Color.kBlue))
+            .add(16, Pattern.solid(Color.kYellow))
+            .intoPositionPattern());
 
     public final Command gradientPosition = registerPattern(
             new Flexbox()
-                    .add(1, Pattern.gradientOverPosition(Color.kBlue, Color.kYellow))
-                    .add(1, Pattern.gradientOverPosition(Color.kYellow, Color.kBlue))
+                    .add(Pattern.gradientOverPosition(Color.kBlue, Color.kYellow))
+                    .add(Pattern.gradientOverPosition(Color.kYellow, Color.kBlue))
                     .intoPositionPattern()
                     .shiftOverTime());
 
     public final Command gradientTime = registerPattern(
             new Flexbox()
-                    .add(1, Pattern.gradientOverTime(Color.kBlue, Color.kYellow))
-                    .add(1, Pattern.gradientOverTime(Color.kYellow, Color.kBlue))
+                    .add(Pattern.gradientOverTime(Color.kBlue, Color.kYellow))
+                    .add(Pattern.gradientOverTime(Color.kYellow, Color.kBlue))
                     .intoTimePattern());
+
+    public final Command flags;
+    {
+        final var timeFlex = new Flexbox();
+
+        for (final var flag : kFlagData) {
+            final var positionFlex = new Flexbox();
+
+            for (final var color : flag) {
+                positionFlex.add(Pattern.solid(color));
+            }
+
+            timeFlex.add(positionFlex.intoPositionPattern());
+        }
+
+        final var timePattern = timeFlex.intoTimePattern();
+        final var segments = new Flexbox()
+                .add(Constants.kLightsShortHalf, timePattern)
+                .add(Constants.kLightsLongHalf, timePattern)
+                .intoPositionPattern();
+
+        final var cycle = 50 * 4 * kFlagData.length;
+
+        flags = registerPattern(cycle, segments);
+    }
+
+    private static final Color[][] kFlagData = new Color[][] {
+            { Color.kRed, Color.kOrange, Color.kYellow, Color.kGreen, Color.kBlue, Color.kPurple },
+            { Color.kBlue, Color.kDeepPink, Color.kWhite, Color.kDeepPink, Color.kBlue },
+            { Color.kYellow, Color.kWhite, Color.kPurple, Color.kBlack },
+            { Color.kRed, Color.kRed, Color.kPurple, Color.kBlue, Color.kBlue },
+            { Color.kRed, Color.kYellow, Color.kBlue },
+            { Color.kBlack, Color.kGray, Color.kWhite, Color.kPurple },
+    };
 
 }

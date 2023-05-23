@@ -45,6 +45,7 @@ public class RobotContainer {
         inputs.a().onTrue(testSubsystem.solid);
         inputs.b().onTrue(testSubsystem.gradientPosition);
         inputs.x().onTrue(testSubsystem.gradientTime);
+        inputs.y().onTrue(testSubsystem.flags);
     }
 
     /**

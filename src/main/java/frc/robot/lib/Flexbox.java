@@ -6,6 +6,10 @@ public class Flexbox {
     private final ArrayList<Integer> amounts = new ArrayList<>();
     private final ArrayList<Pattern> patterns = new ArrayList<>();
 
+    public final Flexbox add(final Pattern pattern) {
+        return add(1, pattern);
+    }
+
     public final Flexbox add(final int amount, final Pattern pattern) {
         amounts.add(amount);
         patterns.add(pattern);
@@ -32,30 +36,32 @@ public class Flexbox {
         double runningBreakpoint = 0;
         for (int i = 0; i < amounts.size(); i++) {
             final var percent = (double) amounts.get(i) / totalAmount;
+            runningBreakpoint += percent;
+
             percents.add(percent);
-            breakpoints.add(runningBreakpoint + percent);
+            breakpoints.add(runningBreakpoint);
         }
 
         return (data) -> {
             final var percent = positionPattern ? data.positionPercent() : data.timePercent();
 
-            int highestPattern = 0;
-            for (int i = 0; i < breakpoints.size(); i++) {
-                if (percent < breakpoints.get(i)) {
+            int index = breakpoints.size() - 1;
+            for (int i = index; i >= 0; i--) {
+                if (percent >= breakpoints.get(i)) {
                     break;
                 }
-                highestPattern = i;
+                index = i;
             }
 
             if (positionPattern) {
-                final var newMax = Math.floor(data.maxPosition() * percents.get(highestPattern));
+                final var newMax = Math.floor(data.maxPosition() * percents.get(index));
                 data.setMaxPosition((int) newMax);
             } else {
-                final var newMax = Math.floor(data.maxTime() * percents.get(highestPattern));
+                final var newMax = Math.floor(data.maxTime() * percents.get(index));
                 data.setMaxTime((int) newMax);
             }
 
-            return patterns.get(highestPattern).getColor(data);
+            return patterns.get(index).getColor(data);
         };
     }
 }

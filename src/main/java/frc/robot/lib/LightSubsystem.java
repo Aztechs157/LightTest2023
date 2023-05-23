@@ -6,7 +6,6 @@ package frc.robot.lib;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -27,8 +26,6 @@ public class LightSubsystem extends SubsystemBase {
         lights.setData(buffer);
         lights.start();
     }
-
-    public int defaultCycleLength = (int) Math.floor(5 / TimedRobot.kDefaultPeriod);
 
     public static class PixelData {
         private int position = 0;
@@ -90,6 +87,11 @@ public class LightSubsystem extends SubsystemBase {
 
         private final PixelData data = new PixelData();
         private int time = 0;
+
+        @Override
+        public void initialize() {
+            time = 0;
+        }
 
         @Override
         public void execute() {

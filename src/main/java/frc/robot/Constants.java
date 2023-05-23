@@ -20,5 +20,7 @@ public final class Constants {
     public static final int kInputId = 0;
 
     public static final int kLightsId = 0;
-    public static final int kLightsLength = 69;
+    public static final int kLightsLength = 68;
+    public static final int kLightsShortHalf = 32;
+    public static final int kLightsLongHalf = 36;
 }
