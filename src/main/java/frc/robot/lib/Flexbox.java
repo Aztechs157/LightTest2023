@@ -12,7 +12,15 @@ public class Flexbox {
         return this;
     }
 
-    public final Pattern intoPattern() {
+    public final Pattern intoPositionPattern() {
+        return intoPattern(true);
+    }
+
+    public final Pattern intoTimePattern() {
+        return intoPattern(false);
+    }
+
+    private final Pattern intoPattern(final boolean positionPattern) {
         final var percents = new ArrayList<Double>(amounts.size());
         final var breakpoints = new ArrayList<Double>(amounts.size());
 
@@ -29,7 +37,7 @@ public class Flexbox {
         }
 
         return (data) -> {
-            final var percent = data.positionPercent();
+            final var percent = positionPattern ? data.positionPercent() : data.timePercent();
 
             int highestPattern = 0;
             for (int i = 0; i < breakpoints.size(); i++) {
@@ -39,7 +47,14 @@ public class Flexbox {
                 highestPattern = i;
             }
 
-            data.setMaxPosition((int) Math.floor(data.maxPosition() * percents.get(highestPattern)));
+            if (positionPattern) {
+                final var newMax = Math.floor(data.maxPosition() * percents.get(highestPattern));
+                data.setMaxPosition((int) newMax);
+            } else {
+                final var newMax = Math.floor(data.maxTime() * percents.get(highestPattern));
+                data.setMaxTime((int) newMax);
+            }
+
             return patterns.get(highestPattern).getColor(data);
         };
     }

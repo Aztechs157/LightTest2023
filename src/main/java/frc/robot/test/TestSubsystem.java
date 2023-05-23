@@ -16,19 +16,19 @@ public class TestSubsystem extends LightSubsystem {
         super(id, length);
     }
 
-    public final Command flex = registerPattern(
-            new Flexbox()
-                    .add(1, Pattern.solid(Color.kHotPink))
-                    .add(1, Pattern.solid(Color.kBlue))
-                    .intoPattern());
+    public final Command solid = registerPattern(Pattern.solid(Color.kHotPink));
 
     public final Command gradientPosition = registerPattern(
-            Pattern.gradientOverPosition(Color.kBlue, Color.kYellow)
-                    .modify((data) -> {
-                        data.setPosition(data.position() + (int) Math.floor(data.timePercent() * data.maxPosition()));
-                    }));
+            new Flexbox()
+                    .add(1, Pattern.gradientOverPosition(Color.kBlue, Color.kYellow))
+                    .add(1, Pattern.gradientOverPosition(Color.kYellow, Color.kBlue))
+                    .intoPositionPattern()
+                    .shiftOverTime());
 
     public final Command gradientTime = registerPattern(
-            Pattern.gradientOverTime(Color.kBlue, Color.kYellow));
+            new Flexbox()
+                    .add(1, Pattern.gradientOverTime(Color.kBlue, Color.kYellow))
+                    .add(1, Pattern.gradientOverTime(Color.kYellow, Color.kBlue))
+                    .intoTimePattern());
 
 }

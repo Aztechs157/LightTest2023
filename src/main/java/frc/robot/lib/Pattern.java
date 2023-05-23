@@ -20,6 +20,14 @@ public interface Pattern {
         };
     }
 
+    public default Pattern shiftOverTime() {
+        return (data) -> {
+            final var shiftAmount = Math.floor(data.timePercent() * data.maxPosition());
+            data.setPosition(data.position() + (int) shiftAmount);
+            return getColor(data);
+        };
+    }
+
     public static Pattern solid(final Color color) {
         return (data) -> color;
     }
