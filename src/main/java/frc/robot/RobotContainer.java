@@ -4,10 +4,10 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.test.TestSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -19,7 +19,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-    private final CommandXboxController inputs = new CommandXboxController(OperatorConstants.kDriverControllerPort);
+    private final CommandXboxController inputs = new CommandXboxController(Constants.kInputId);
+
+    private final TestSubsystem testSubsystem = new TestSubsystem(Constants.kLightsId, Constants.kLightsLength);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -40,7 +42,9 @@ public class RobotContainer {
      * Flight joysticks}.
      */
     private void configureBindings() {
-
+        inputs.a().onTrue(testSubsystem.solid);
+        inputs.b().onTrue(testSubsystem.gradientPosition);
+        inputs.x().onTrue(testSubsystem.gradientTime);
     }
 
     /**
