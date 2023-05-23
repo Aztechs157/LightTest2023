@@ -24,6 +24,8 @@ public class TestSubsystem extends LightSubsystem {
             .add(16, Pattern.solid(Color.kYellow))
             .intoPositionPattern());
 
+    public final Command evens = registerPattern((data) -> data.position() % 2 == 0 ? Color.kWhite : Color.kBlack);
+
     public final Command gradientPosition = registerPattern(
             new Flexbox()
                     .add(Pattern.gradientOverPosition(Color.kBlue, Color.kYellow))
@@ -40,6 +42,7 @@ public class TestSubsystem extends LightSubsystem {
     public final Command flags;
     {
         final var timeFlex = new Flexbox();
+        final var timeFlex2 = new Flexbox();
 
         for (final var flag : kFlagData) {
             final var positionFlex = new Flexbox();
@@ -49,12 +52,13 @@ public class TestSubsystem extends LightSubsystem {
             }
 
             timeFlex.add(positionFlex.intoPositionPattern());
+            timeFlex2.add(positionFlex.intoPositionPattern());
         }
 
         final var timePattern = timeFlex.intoTimePattern();
         final var segments = new Flexbox()
-                .add(Constants.kLightsShortHalf, timePattern)
                 .add(Constants.kLightsLongHalf, timePattern)
+                .add(Constants.kLightsShortHalf, timePattern)
                 .intoPositionPattern();
 
         final var cycle = 50 * 4 * kFlagData.length;
@@ -64,11 +68,11 @@ public class TestSubsystem extends LightSubsystem {
 
     private static final Color[][] kFlagData = new Color[][] {
             { Color.kRed, Color.kOrange, Color.kYellow, Color.kGreen, Color.kBlue, Color.kPurple },
-            { Color.kBlue, Color.kDeepPink, Color.kWhite, Color.kDeepPink, Color.kBlue },
-            { Color.kYellow, Color.kWhite, Color.kPurple, Color.kBlack },
-            { Color.kRed, Color.kRed, Color.kPurple, Color.kBlue, Color.kBlue },
-            { Color.kRed, Color.kYellow, Color.kBlue },
-            { Color.kBlack, Color.kGray, Color.kWhite, Color.kPurple },
+            // { Color.kBlue, Color.kDeepPink, Color.kWhite, Color.kDeepPink, Color.kBlue },
+            // { Color.kYellow, Color.kWhite, Color.kPurple, Color.kBlack },
+            // { Color.kRed, Color.kRed, Color.kPurple, Color.kBlue, Color.kBlue },
+            // { Color.kRed, Color.kYellow, Color.kBlue },
+            // { Color.kBlack, Color.kGray, Color.kWhite, Color.kPurple },
     };
 
 }
