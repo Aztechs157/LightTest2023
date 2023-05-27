@@ -35,6 +35,10 @@ public class LightSubsystem extends SubsystemBase {
             return position % maxPosition;
         }
 
+        public int rawPosition() {
+            return position;
+        }
+
         public void setPosition(int position) {
             this.position = position;
         }

@@ -42,10 +42,10 @@ public class RobotContainer {
      * Flight joysticks}.
      */
     private void configureBindings() {
-        inputs.a().onTrue(testSubsystem.evens);
+        inputs.a().onTrue(testSubsystem.scroll);
         inputs.b().onTrue(testSubsystem.gradientPosition);
         inputs.x().onTrue(testSubsystem.gradientTime);
-        inputs.y().onTrue(testSubsystem.flags);
+        inputs.y().onTrue(testSubsystem.flagsScroll);
     }
 
     /**

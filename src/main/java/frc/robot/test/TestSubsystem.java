@@ -10,6 +10,7 @@ import frc.robot.Constants;
 import frc.robot.lib.Flexbox;
 import frc.robot.lib.LightSubsystem;
 import frc.robot.lib.Pattern;
+import frc.robot.lib.ScrollBox;
 
 public class TestSubsystem extends LightSubsystem {
 
@@ -25,6 +26,17 @@ public class TestSubsystem extends LightSubsystem {
             .intoPositionPattern());
 
     public final Command evens = registerPattern((data) -> data.position() % 2 == 0 ? Color.kWhite : Color.kBlack);
+
+    public final Command scroll = registerPattern(
+            new ScrollBox()
+                    .add(Pattern.solid(Color.kHotPink))
+                    .add(Pattern.solid(Color.kBlue))
+                    .add(Pattern.solid(Color.kYellow))
+                    .intoPattern());
+    // .modify((data) -> {
+    // data.setPosition(data.position() + Constants.kLightsLength +
+    // Constants.kLightsShortHalf);
+    // }));
 
     public final Command gradientPosition = registerPattern(
             new Flexbox()
@@ -42,7 +54,6 @@ public class TestSubsystem extends LightSubsystem {
     public final Command flags;
     {
         final var timeFlex = new Flexbox();
-        final var timeFlex2 = new Flexbox();
 
         for (final var flag : kFlagData) {
             final var positionFlex = new Flexbox();
@@ -52,7 +63,6 @@ public class TestSubsystem extends LightSubsystem {
             }
 
             timeFlex.add(positionFlex.intoPositionPattern());
-            timeFlex2.add(positionFlex.intoPositionPattern());
         }
 
         final var timePattern = timeFlex.intoTimePattern();
@@ -66,13 +76,30 @@ public class TestSubsystem extends LightSubsystem {
         flags = registerPattern(cycle, segments);
     }
 
+    public final Command flagsScroll;
+    {
+        final var scrollBox = new ScrollBox();
+
+        for (final var flag : kFlagData) {
+            final var positionFlex = new Flexbox();
+
+            for (final var color : flag) {
+                positionFlex.add(Pattern.solid(color));
+            }
+
+            scrollBox.add(positionFlex.intoPositionPattern());
+        }
+
+        flagsScroll = registerPattern(scrollBox.intoPattern());
+    }
+
     private static final Color[][] kFlagData = new Color[][] {
             { Color.kRed, Color.kOrange, Color.kYellow, Color.kGreen, Color.kBlue, Color.kPurple },
-            // { Color.kBlue, Color.kDeepPink, Color.kWhite, Color.kDeepPink, Color.kBlue },
-            // { Color.kYellow, Color.kWhite, Color.kPurple, Color.kBlack },
-            // { Color.kRed, Color.kRed, Color.kPurple, Color.kBlue, Color.kBlue },
-            // { Color.kRed, Color.kYellow, Color.kBlue },
-            // { Color.kBlack, Color.kGray, Color.kWhite, Color.kPurple },
+            { Color.kBlue, Color.kDeepPink, Color.kWhite, Color.kDeepPink, Color.kBlue },
+            { Color.kYellow, Color.kWhite, Color.kPurple, Color.kBlack },
+            { Color.kRed, Color.kRed, Color.kPurple, Color.kBlue, Color.kBlue },
+            { Color.kRed, Color.kYellow, Color.kBlue },
+            { Color.kBlack, Color.kGray, Color.kWhite, Color.kPurple },
     };
 
 }
