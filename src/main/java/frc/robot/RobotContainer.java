@@ -44,7 +44,7 @@ public class RobotContainer {
     private void configureBindings() {
         inputs.a().onTrue(testSubsystem.scroll);
         inputs.b().onTrue(testSubsystem.gradientPosition);
-        inputs.x().onTrue(testSubsystem.gradientTime);
+        inputs.x().onTrue(testSubsystem.flags);
         inputs.y().onTrue(testSubsystem.flagsScroll);
     }
 

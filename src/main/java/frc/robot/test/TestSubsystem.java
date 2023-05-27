@@ -29,9 +29,12 @@ public class TestSubsystem extends LightSubsystem {
 
     public final Command scroll = registerPattern(
             new ScrollBox()
-                    .add(Pattern.solid(Color.kHotPink))
-                    .add(Pattern.solid(Color.kBlue))
-                    .add(Pattern.solid(Color.kYellow))
+                    .add((data) -> data.position() % 2 == 0 ? Color.kBlue
+                            : Color.kRed)
+                    .add((data) -> data.position() % 2 == 0 ? Color.kYellow
+                            : Color.kPurple)
+                    .add((data) -> data.position() % 2 == 0 ? Color.kGreen
+                            : Color.kOrange)
                     .intoPattern());
     // .modify((data) -> {
     // data.setPosition(data.position() + Constants.kLightsLength +
@@ -98,7 +101,7 @@ public class TestSubsystem extends LightSubsystem {
             { Color.kBlue, Color.kDeepPink, Color.kWhite, Color.kDeepPink, Color.kBlue },
             { Color.kYellow, Color.kWhite, Color.kPurple, Color.kBlack },
             { Color.kRed, Color.kRed, Color.kPurple, Color.kBlue, Color.kBlue },
-            { Color.kRed, Color.kYellow, Color.kBlue },
+            { Color.kPurple, Color.kYellow, Color.kBlue },
             { Color.kBlack, Color.kGray, Color.kWhite, Color.kPurple },
     };
 
